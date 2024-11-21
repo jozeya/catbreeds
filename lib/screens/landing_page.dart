@@ -14,11 +14,14 @@ class _LandingPageState extends State<LandingPage> {
 
   final TextEditingController searchInput = TextEditingController();
   late Future<List<CatBreed>> fCatBreedData;
+  List<CatBreed> catBreedData = [];
+  List<CatBreed> catBreedDataFilter = [];
   late String searchText;
 
   @override
   void initState() {
     searchText = "";
+    fCatBreedData = CatBreedService().getCatBreedInfoList();
     super.initState();
   }
 
@@ -38,26 +41,35 @@ class _LandingPageState extends State<LandingPage> {
               decoration: InputDecoration(
                   suffixIcon: IconButton(
                       onPressed: (){
-                        searchText = searchInput.text.toLowerCase();
-                        setState(() {});
+                        setState(() {
+                          catBreedDataFilter =
+                              catBreedData.where((e) =>
+                                  e.name!.toLowerCase()
+                                      .contains(searchInput.text)).toList();
+                          FocusScope.of(context).unfocus();
+                        });
                       },
                       icon: const Icon(Icons.search)
                   ),
-                  border: OutlineInputBorder()
+                  border: const OutlineInputBorder()
               ),
             ),
           ),
           Expanded(
             child: FutureBuilder(
-                future: CatBreedService().getCatBreedInfoList(filter: searchText),
+                future: fCatBreedData,
                 builder: (context, snapshot){
                   if (snapshot.hasData){
-                    List<CatBreed> catBreedData = snapshot.data!;
+                    if (catBreedData.isEmpty){
+                      catBreedData = snapshot.data!;
+                      catBreedDataFilter = catBreedData;
+                    }
+
                     return ListView.builder(
-                        itemCount: catBreedData.length,
+                        itemCount: catBreedDataFilter.length,
                         itemBuilder: (context, idx){
                           return BreedTile(
-                              catBreed: catBreedData[idx]
+                              catBreed: catBreedDataFilter[idx]
                           );
                         }
                     );

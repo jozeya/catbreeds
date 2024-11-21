@@ -51,9 +51,9 @@ class DetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(catBreed?.description ?? '', style: TextStyle(fontSize: 18)),
-                    Text(catBreed?.origin ?? '', style: TextStyle(fontSize: 18)),
-                    Text(catBreed!.intelligence.toString(),style: TextStyle(fontSize: 18)),
-                    Text(catBreed!.adaptability.toString(),style: TextStyle(fontSize: 18)),
+                    Text('País: ${catBreed?.origin ?? ''}', style: TextStyle(fontSize: 18)),
+                    Text('Inteligencia: ${catBreed?.intelligence.toString() ?? ''}',style: TextStyle(fontSize: 18)),
+                    Text('Adaptabilidad: ${catBreed?.adaptability.toString() ?? ''}',style: TextStyle(fontSize: 18)),
                   ],
                 ),
               ),
