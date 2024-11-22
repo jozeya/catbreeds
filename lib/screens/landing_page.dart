@@ -81,8 +81,7 @@ class _LandingPageState extends State<LandingPage> {
                         }
                     );
                   }else{
-                    // return Container(child: const CircularProgressIndicator());
-                    return Container(child: Text("Cargando..."),);
+                    return const Text("Cargando...");
                   }
                 }
             ),
