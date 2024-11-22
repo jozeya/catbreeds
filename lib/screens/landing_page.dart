@@ -1,6 +1,7 @@
 import 'package:catbreeds/models/catbreed.dart';
 import 'package:catbreeds/services/catbreed_service.dart';
 import 'package:catbreeds/widgets/breed_tile.dart';
+import 'package:catbreeds/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _LandingPageState extends State<LandingPage> {
   List<CatBreed> catBreedData = [];
   List<CatBreed> catBreedDataFilter = [];
   late String searchText;
+  bool isFiltering = false;
 
   @override
   void initState() {
@@ -40,13 +42,18 @@ class _LandingPageState extends State<LandingPage> {
               controller: searchInput,
               decoration: InputDecoration(
                   suffixIcon: IconButton(
-                      onPressed: (){
-                        setState(() {
-                          catBreedDataFilter =
-                              catBreedData.where((e) =>
-                                  e.name!.toLowerCase()
-                                      .contains(searchInput.text)).toList();
-                          FocusScope.of(context).unfocus();
+                      onPressed: () {
+                        isFiltering = true;
+                        setState(() {});
+                        Future.delayed(const Duration(milliseconds: 100), (){
+                          setState(() {
+                            catBreedDataFilter =
+                                catBreedData.where((e) =>
+                                    e.name!.toLowerCase()
+                                        .contains(searchInput.text.toLowerCase())).toList();
+                            isFiltering = false;
+                            FocusScope.of(context).unfocus();
+                          });
                         });
                       },
                       icon: const Icon(Icons.search)
@@ -55,7 +62,7 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ),
           ),
-          Expanded(
+          isFiltering ? Expanded(child: Loading()) : Expanded(
             child: FutureBuilder(
                 future: fCatBreedData,
                 builder: (context, snapshot){

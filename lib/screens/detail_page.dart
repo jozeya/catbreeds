@@ -29,11 +29,15 @@ class DetailPage extends StatelessWidget {
                   builder: (context, snapshot){
                     if (snapshot.hasData){
                       String path = snapshot.data!;
-                      return Image.network(
-                          path,
-                          width: double.maxFinite,
-                          height: mHeight,
-                          fit: BoxFit.cover
+                      return Container(
+                        color: Colors.black,
+                        height: mHeight,
+                        child: Image.network(
+                            path,
+                            width: double.maxFinite,
+                            height: mHeight,
+                            //fit: BoxFit.fill
+                        ),
                       );
                     }else{
                       return const Loading();
@@ -51,9 +55,11 @@ class DetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(catBreed?.description ?? '', style: TextStyle(fontSize: 18)),
+                    SizedBox(height: 15.0),
                     Text('País: ${catBreed?.origin ?? ''}', style: TextStyle(fontSize: 18)),
                     Text('Inteligencia: ${catBreed?.intelligence.toString() ?? ''}',style: TextStyle(fontSize: 18)),
                     Text('Adaptabilidad: ${catBreed?.adaptability.toString() ?? ''}',style: TextStyle(fontSize: 18)),
+                    Text('Nivel de energia: ${catBreed?.energy.toString() ?? ''}',style: TextStyle(fontSize: 18)),
                   ],
                 ),
               ),

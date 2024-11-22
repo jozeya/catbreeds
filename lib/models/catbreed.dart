@@ -5,7 +5,7 @@ class CatBreed{
   final int? intelligence;
   final String? description;
   final int? adaptability;
-  final String? imgReference;
+  final int? energy;
 
   CatBreed.fromJson(Map<String, dynamic> json) :
         id = json['id'],
@@ -14,5 +14,5 @@ class CatBreed{
         intelligence = json['intelligence'] ?? 0,
         description = json['description'],
         adaptability= json['adaptability'] ?? 0,
-        imgReference = json['reference_image_id'] ;
+        energy = json['energy_level'] ?? 0;
 }
